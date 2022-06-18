@@ -1,1 +1,13 @@
-module.export = async ({ getNamedAxxounts, deployer }) => {}
+const { network } = require("hardhat")
+
+module.export = async ({ getNamedAccounts, deployer }) => {
+    const { deploy, log } = deployments
+    const deployer = await getNamedAccounts
+
+    const raffle = await deploy("Raffle", {
+        from: deployer,
+        args: [],
+        log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
+    })
+}

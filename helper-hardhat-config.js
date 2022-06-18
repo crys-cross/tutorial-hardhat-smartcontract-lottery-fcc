@@ -4,6 +4,7 @@ const networkConfig = {
     4: {
         name: "rinkeby",
         ethUsdPriceFeed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e",
+        vrfCoordinatorV2: "0x6168499c0cFfCaCD319c818142124B7A15E857ab",
     },
     80001: {
         name: "polygon(mumbai-testnet)",
