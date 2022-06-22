@@ -12,4 +12,10 @@ developmentChains.includes(network.name)
               raffle = await ethers.getContract("Raffle", deployer)
               raffleEntranceFee = await raffle.getEntranceFee()
           })
+          describe("fulfillRandomWords", () => {
+              it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async () => {
+                  //only enter the raffle
+                  const startingTimeStamp = await raffle.getLatestTimeStamp()
+              })
+          })
       })
