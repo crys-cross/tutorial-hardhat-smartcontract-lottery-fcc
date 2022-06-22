@@ -48,4 +48,7 @@ module.exports = {
             default: 1,
         },
     },
+    mocha: {
+        timeout: 4000000, //4000 seconds
+    },
 }
