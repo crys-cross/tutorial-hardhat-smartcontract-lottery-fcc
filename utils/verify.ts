@@ -1,7 +1,7 @@
 // we can't have these functions in our `helper-hardhat-config`
 // since these use the hardhat library
 // and it would be a circular dependency
-const { run } = require("hardhat")
+import { run } from "hardhat"
 
 const verify = async (contractAddress, args) => {
     console.log("Verifying contract...")
@@ -10,7 +10,7 @@ const verify = async (contractAddress, args) => {
             address: contractAddress,
             constructorArguments: args,
         })
-    } catch (e) {
+    } catch (e:any) {
         if (e.message.toLowerCase().includes("already verified")) {
             console.log("Already verified!")
         } else {
@@ -19,6 +19,4 @@ const verify = async (contractAddress, args) => {
     }
 }
 
-module.exports = {
-    verify,
-}
+export default verify

@@ -1,10 +1,17 @@
-const { network, ethers } = require("hardhat")
-const { developmentChains, networkConfig } = require("../helper-hardhat-config")
-const { verify } = require("../utils/verify")
+import { network, ethers } from "hardhat"
+import { DeployFunction } from "hardhat-deploy/dist/types"
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import {
+    developmentChains,
+    networkConfig,
+    VERIFICATION_BLOCK_CONFIRMATIONS,
+} from "../helper-hardhat-config"
+import verify from "../utils/verify"
 
 const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("30")
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+const deployRaffle: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
+    const { network, deployments, getNamedAccounts } = hre
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
