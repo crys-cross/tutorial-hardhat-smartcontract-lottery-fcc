@@ -138,8 +138,10 @@ import { Raffle, VRFCoordinatorV2Mock } from "../../typechain-types"
                       i < startingAccountIndex + additionalEntrances;
                       i++
                   ) {
-                      const accountConnectedRaffle = raffle.connect(accounts[i])
-                      await accountConnectedRaffle.enterRaffle({ value: raffleEntranceFee })
+                      //   const accountConnectedRaffle = raffle.connect(accounts[i])
+                      //   await accountConnectedRaffle.enterRaffle({ value: raffleEntranceFee })
+                      raffle = raffleContract.connect(accounts[i])
+                      await raffle.enterRaffle({ value: raffleEntranceFee })
                   }
                   const startingTimeStamp = await raffle.getLatestTimeStamp()
                   // performUpKeep (mock being chainlink Keepers)
@@ -147,7 +149,7 @@ import { Raffle, VRFCoordinatorV2Mock } from "../../typechain-types"
                   // We will have to wait for the fulfillRandomWords to be called
                   await new Promise<void>(async (resolve, reject) => {
                       raffle.once("WinnerPicked", async () => {
-                          console.log("Found the event!")
+                          console.log("WinnerPicked event fired!")
                           try {
                               //   console.log(recentWinner)
                               //   console.log(accounts[2].address)
@@ -175,16 +177,17 @@ import { Raffle, VRFCoordinatorV2Mock } from "../../typechain-types"
                                       )
                                       .toString() //3
                               )
+                              assert(endingTimeStamp > startingTimeStamp)
+                              resolve()
                           } catch (e) {
                               reject(e)
                           }
-                          resolve()
                       })
                       // setting up the listener
                       // below we will fire the event, and the listener will pick it up
                       const tx = await raffle.performUpkeep([]) //or ("0x") fpr empty
                       const txReceipt = await tx.wait(1)
-                      const winnerStartingBalance = await accounts[1].getBalance() //1
+                      const winnerStartingBalance = await accounts[2].getBalance() //1
                       await VRFCoordinatorV2Mock.fulfillRandomWords(
                           txReceipt!.events![1].args!.requestId,
                           raffle.address

@@ -39,12 +39,12 @@ const deployRaffle: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     console.log(vrfCoordinatorV2Address)
 
     const args: any[] = [
-        subscriptionId,
-        networkConfig[network.config.chainId!]["gasLane"],
-        networkConfig[network.config.chainId!]["keeperUpdateInterval"],
-        networkConfig[network.config.chainId!]["raffleEntranceFee"],
-        networkConfig[network.config.chainId!]["callbackGasLimit"],
         vrfCoordinatorV2Address,
+        networkConfig[network.config.chainId!]["raffleEntranceFee"],
+        networkConfig[network.config.chainId!]["gasLane"],
+        subscriptionId,
+        networkConfig[network.config.chainId!]["callbackGasLimit"],
+        networkConfig[network.config.chainId!]["keeperUpdateInterval"],
     ]
     const raffle = await deploy("Raffle", {
         from: deployer,
