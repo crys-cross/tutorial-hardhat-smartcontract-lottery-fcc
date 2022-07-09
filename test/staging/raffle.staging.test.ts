@@ -1,11 +1,15 @@
-const { assert, expect } = require("chai")
-const { getNamedAccounts, ethers, network } = require("hardhat")
-const { developmentChains } = require("../../helper-hardhat-config")
+import { assert, expect } from "chai"
+import { BigNumber } from "ethers"
+import { getNamedAccounts, ethers, network } from "hardhat"
+import { developmentChains } from "../../helper-hardhat-config"
+import { Raffle } from "../../typechain-types"
 
 developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Raffle Unit Test", () => {
-          let raffle, raffleEntranceFee, deployer
+    : describe("Raffle Staging Test", () => {
+          let raffle: Raffle
+          let raffleEntranceFee: BigNumber
+          let deployer: string
 
           beforeEach(async () => {
               deployer = (await getNamedAccounts()).deployer
@@ -18,7 +22,7 @@ developmentChains.includes(network.name)
                   const startingTimeStamp = await raffle.getLatestTimeStamp()
                   const accounts = await ethers.getSigners()
 
-                  await new Promise(async (resolve, reject) => {
+                  await new Promise<void>(async (resolve, reject) => {
                       //setup listener before we enter the raffle just incase the blockchain moves really fast
                       //await raffle.enterRaffle({value: raffleEntranceFee})
                       raffle.once("WinnerPicked", async () => {
@@ -30,9 +34,9 @@ developmentChains.includes(network.name)
                               const winnerEndingBalance = await accounts[0].getBalance()
                               const endingTimeStamp = await raffle.getLatestTimeStamp()
 
-                              await expect(raffle.getPlayer()).to.be.reverted
+                              await expect(raffle.getPlayers(0)).to.be.reverted
                               assert.equal(recentWinner.toString(), accounts[0].address)
-                              assert.equal(raffleState, o)
+                              assert.equal(raffleState, 0)
                               assert.equal(
                                   winnerEndingBalance.toString(),
                                   winnerStartingBalance.add(raffleEntranceFee).toString()
@@ -41,11 +45,14 @@ developmentChains.includes(network.name)
                               resolve()
                           } catch (error) {
                               console.log(error)
-                              reject(e)
+                              reject(error)
                           }
                       })
                       //then entering the raffle
-                      await raffle.enterRaffle({ valeu: raffleEntranceFee })
+                      console.log("Entering Raffle...")
+                      await raffle.enterRaffle({ value: raffleEntranceFee })
+                      //   await tx.wait(1)
+                      console.log("Ok, time to wait...")
                       const winnerStartingBalance = await accounts[0].getBalance()
                       //and this code wont complete until our listener has finished listening
                   })

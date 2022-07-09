@@ -19,8 +19,6 @@ error Raffle__TransferFailed();
 error Raffle__NotOpen();
 error Reffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numpPlayers, uint256 raffleState);
 
-// error Raffle__UpkeepNotNeeded(uint256 currentBalance, uint256 numpPlayers, uint256 raffleState);
-
 /**
  * @title A sample Raffle Contract
  * @author Crys

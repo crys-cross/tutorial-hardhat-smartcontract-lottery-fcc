@@ -9,9 +9,10 @@ const deployMocks: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const { deployments, getNamedAccounts, network } = hre
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
+    const chainId = network.config.chainId
     const args = [BASE_FEE, GAS_PRICE_LINK]
 
-    if (developmentChains.includes(network.name)) {
+    if (chainId == 31337) {
         log("Local network detected! Deploying mocks...")
         // deploy a mock vrfcoordinator
         await deploy("VRFCoordinatorV2Mock", {
