@@ -1,4 +1,5 @@
 const fs = require("fs")
+const { ethers, network } = require("hardhat")
 
 const frontEndContractsFile =
     "../../practice-nextjs-smartcontract-lottery-fcc/constants/contractAddresses.json"
