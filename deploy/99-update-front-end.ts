@@ -3,8 +3,8 @@ import { ethers, network } from "hardhat"
 import { DeployFunction } from "hardhat-deploy/types"
 
 const frontEndContractsFile =
-    "../../practice-nextjs-smartcontract-lottery-fcc/constants/contractAddresses.json"
-const frontEndAbiFile = "../../practice-nextjs-smartcontract-lottery-fcc/constants/abi.json"
+    "../practice-nextjs-smartcontract-lottery-fcc/constants/contractAddresses.json"
+const frontEndAbiFile = "../practice-nextjs-smartcontract-lottery-fcc/constants/abi.json"
 
 const updateUI: DeployFunction = async () => {
     if (process.env.UPDATE_FRONT_END) {
